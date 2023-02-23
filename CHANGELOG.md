@@ -1,3 +1,7 @@
-## 0.0.1
+## 0.0.1 2023.02.22
 
-* TODO: Describe initial release.
+* 创建空白 Package
+
+## 0.1.0 2023.03.23
+
+* 日志输出工具 `Log`
