@@ -1,6 +1,6 @@
 name: libnyaruko_flutter
 description: 雅诗的通用工具库，一些跨项目常用的代码会放在里面
-version: 0.1.0
+version: 0.2.0
 homepage:
 
 environment:

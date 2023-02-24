@@ -6,9 +6,9 @@
 
 ## 组件
 
-### Log (log.dart)
+### Log `log.dart`
 
-用于输出调试信息，规避 Flutter 输出调试信息时的强制截断；并优化输出调试信息的便捷性。
+**调试输出** : 用于输出调试信息，规避 Flutter 输出调试信息时的强制截断；并优化输出调试信息的便捷性。
 
 - 开始使用时，只需要创建一个 Log 类型的类属性即可。
 - 在构造时，可以指定以下参数（皆为可选）：
@@ -22,6 +22,20 @@
 - 使用 `.s()` 可以输出显著信息，例如:
   - `========== info ==========`
   - 字符和长度均可自定义。
+
+### NotificationCenter `notification_center.dart`
+
+**通知中心** : 方便跨组件通信，一个页面/组件订阅，一个或多个页面/组件发送，免去写 Delegate 等麻烦。无需手动构造对象，随处直接使用：
+
+- 接收方订阅 `name` 并接收对象 `object`：
+  - `NotificationCenter.add("通知名称", (object) { print("收到了 $object"); });`
+- 发送方向 `name` 发送对象 `object`：
+  - `NotificationCenter.post("通知名称", object: "要传过去的内容");`
+- 记得不用时取消订阅，可在 `dispose()` 中添加：
+  - `NotificationCenter.remove("通知名称");`
+- 若要查询某个名称是否已被订阅，可以使用：
+  - `NotificationCenter.has("通知名称");`
+- 以上操作均会返回一个 `bool` 结果值用于查看是否成功。
 
 ## LICENSE
 
