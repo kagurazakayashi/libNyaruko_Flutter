@@ -1,3 +1,5 @@
+library libnyaruko_flutter;
+
 typedef NotificationFunction = Function(dynamic object);
 
 /// 通知中心：用於跨組件通信

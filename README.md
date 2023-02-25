@@ -37,6 +37,36 @@
   - `NotificationCenter.has("通知名称");`
 - 以上操作均会返回一个 `bool` 结果值用于查看是否成功。
 
+### NewClass `newclass.dart`
+
+**类文件新建工具** : 根据雅诗个人代码习惯，一键创建 Flutter 类的工具。
+
+- **该脚本在终端中独立工作** ，不是 `library libnyaruko_flutter` 的内容。
+- 在命令行中使用：
+  - dart newclass.dart <类名> [小写类名]
+  - 需要先 cd 到 lib 的上一级文件夹执行此命令。
+  - **类名需要使用驼峰式命名法** ，首字母将自动转为大写。
+  - 小写类名可选，如果不填写，则使用类名的 小写 + `_` 分隔形式。
+  - 示例: `dart newclass.dart MyNewClass` :
+
+| 生成的文件                              | 文件中的类名       |
+| --------------------------------------- | ------------------ |
+| `my_new_class/my_new_class_widget.dart` | `MyNewClassWidget` |
+| `my_new_class/my_new_class_state.dart`  | `MyNewClassState`  |
+| `my_new_class/my_new_class_func.dart`   | `MyNewClassFunc`   |
+
+- 创建的代码包括：
+  - 构造函数, 析构函数
+  - `Widget build` 函数, `createState` 函数
+  - `initState` 函数, `setState` 函数
+  - `func` 类 `Delegate` 创建和 `implements` , 及其 `setState` 函数
+- 可配置项：
+  - 以下配置项均为 `class NewClass` 中的 `static const String`
+    - 换行符：修改常量 `wrap`
+    - 外观库：修改常量 `material`
+    - 后缀名：修改常量 `widgetL, stateL, funcL, stateU, funcU, delegate`
+    - 基本目录: 修改常量 `lib`
+
 ## LICENSE
 
 Copyright (c) 2023 KagurazakaYashi libNyaruko_Flutter is licensed under Mulan PSL v2. You can use this software according to the terms and conditions of the Mulan PSL v2. You may obtain a copy of Mulan PSL v2 at: http://license.coscl.org.cn/MulanPSL2 THIS SOFTWARE IS PROVIDED ON AN “AS IS” BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE. See the Mulan PSL v2 for more details.
