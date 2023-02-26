@@ -1,13 +1,17 @@
 import 'dart:io';
 
 void main(List<String> arguments) {
-  List<String> allPrint = ["Flutter Class Generator by KagurazakaYashi"];
-  if (arguments.length != 1) {
-    allPrint.add("Usage: dart newclass.dart <classname(UpperCamelCase identifier)>");
+  List<String> allPrint = ["Yashi Flutter Class Generator 1.1"];
+  if (arguments.isEmpty || arguments.length > 2) {
+    allPrint.add("Usage: dart newclass.dart <ClassName (UpperCamelCase identifier)> [lower_name]");
     allPrint.add("  e.g. `dart newclass.dart MyNewClass` -> `class MyNewClass*` + `my_new_class_*.dart`");
   } else {
     String className = arguments[0];
-    NewClass newClass = NewClass(className);
+    String lowerName = "";
+    if (arguments.length == 2) {
+      lowerName = arguments[1];
+    }
+    NewClass newClass = NewClass(className, lowerName);
     allPrint.add("Input class name: $className");
     allPrint.add("Class name: ${newClass.name}");
     allPrint.add("Lower file name: ${newClass.lower}.dart");
@@ -28,31 +32,36 @@ void main(List<String> arguments) {
 
 class NewClass {
   static const String wrap = "\n";
+  static const String material = "material";
+
   static const String importPackage = "import 'package:";
   static const String import = "import './";
   static const String dart = ".dart";
   static const String widget = "widget";
   static const String state = "state";
   static const String func = "func";
-  static const String material = "material";
   late String name;
   late String lower;
 
-  NewClass(String name) {
+  NewClass(String name, String lower) {
     this.name = name.substring(0, 1).toUpperCase() + name.substring(1);
-    List<String> lowerArr = [];
-    for (int i = 0; i < this.name.length; i++) {
-      String char = this.name[i];
-      if (isUpperCase(char)) {
-        if (i > 0) {
-          lowerArr.add("_");
+    if (lower.isEmpty) {
+      List<String> lowerArr = [];
+      for (int i = 0; i < this.name.length; i++) {
+        String char = this.name[i];
+        if (isUpperCase(char)) {
+          if (i > 0) {
+            lowerArr.add("_");
+          }
+          lowerArr.add(char.toLowerCase());
+        } else {
+          lowerArr.add(char);
         }
-        lowerArr.add(char.toLowerCase());
-      } else {
-        lowerArr.add(char);
       }
+      this.lower = lowerArr.join("");
+    } else {
+      this.lower = lower;
     }
-    lower = lowerArr.join("");
     newDir();
   }
 
@@ -100,8 +109,13 @@ class NewClass {
       "",
       "  @override",
       "  Widget build(BuildContext context) {",
-      "    return Container(",
-      "      child: Text('$name'),",
+      "    return Scaffold(",
+      "      appBar: AppBar(",
+      "        title: const Text('$name'),",
+      "      ),",
+      "      body: Container(",
+      "        child: const Text('$name'),",
+      "      ),",
       "    );",
       "  }",
       "",
@@ -137,7 +151,7 @@ class NewClass {
       "}",
       "",
       "class ${name}Func {",
-      "  late ${name}FuncDelegate delegate;",
+      "  ${name}FuncDelegate? delegate;",
       "",
       "  ${name}Func() {",
       "    print('init ${name}Func');",
