@@ -1,7 +1,7 @@
 import 'dart:io';
 
 void main(List<String> arguments) {
-  List<String> allPrint = ["Yashi Flutter Class Generator 1.1"];
+  List<String> allPrint = ["Yashi Flutter Class Generator 1.2"];
   if (arguments.isEmpty || arguments.length > 2) {
     allPrint.add("Usage: dart newclass.dart <ClassName (UpperCamelCase identifier)> [lower_name]");
     allPrint.add("  e.g. `dart newclass.dart MyNewClass` -> `class MyNewClass*` + `my_new_class_*.dart`");
@@ -31,15 +31,20 @@ void main(List<String> arguments) {
 }
 
 class NewClass {
+  static const String lib = "lib/";
   static const String wrap = "\n";
   static const String material = "material";
+  static const String widgetL = "widget";
+  static const String stateL = "state";
+  static const String funcL = "func";
+  static const String stateU = "State";
+  static const String funcU = "Func";
+  static const String delegate = "Delegate";
 
   static const String importPackage = "import 'package:";
   static const String import = "import './";
   static const String dart = ".dart";
-  static const String widget = "widget";
-  static const String state = "state";
-  static const String func = "func";
+  static const String override = "  @override";
   late String name;
   late String lower;
 
@@ -66,7 +71,7 @@ class NewClass {
   }
 
   void newDir() {
-    Directory directory = Directory(lower);
+    Directory directory = Directory("$lib$lower");
     if (!directory.existsSync()) {
       directory.createSync();
     }
@@ -77,37 +82,37 @@ class NewClass {
   }
 
   List<String> fWidget() {
-    String fileName = "${lower}_$widget$dart";
+    String fileName = "${lower}_$widgetL$dart";
     List<String> code = [
       "${importPackage}flutter/$material$dart';",
-      "$import${lower}_$state$dart';",
+      "$import${lower}_$stateL$dart';",
       "",
       "class $name extends StatefulWidget {",
       "  const $name({super.key});",
       "",
-      "  @override",
-      "  State<$name> createState() => ${name}State();",
+      override,
+      "  State<$name> createState() => $name$stateU();",
       "}",
       "",
     ];
-    fileName = "$lower/$fileName";
+    fileName = "$lib$lower/$fileName";
     File file = File(fileName);
     file.writeAsStringSync(code.join(wrap));
     return [fileName, code.join(wrap)];
   }
 
   List<String> fState() {
-    String fileName = "${lower}_$state$dart";
+    String fileName = "${lower}_$stateL$dart";
     List<String> code = [
       "${importPackage}flutter/$material$dart';",
-      "$import${lower}_$widget$dart';",
-      "$import${lower}_$func$dart';",
+      "$import${lower}_$widgetL$dart';",
+      "$import${lower}_$funcL$dart';",
       "",
-      "class ${name}State extends State<$name> implements ${name}FuncDelegate {",
+      "class $name$stateU extends State<$name> implements $name$funcU$delegate {",
       "",
-      "  final ${name}Func f = ${name}Func();",
+      "  final $name$funcU f = $name$funcU();",
       "",
-      "  @override",
+      override,
       "  Widget build(BuildContext context) {",
       "    return Scaffold(",
       "      appBar: AppBar(",
@@ -119,53 +124,53 @@ class NewClass {
       "    );",
       "  }",
       "",
-      "  @override",
+      override,
       "  void initState() {",
       "    super.initState();",
-      "    print('init ${name}State');",
+      "    print('init $name$stateU');",
       "    f.delegate = this;",
       "    setState(() {",
       "    });",
       "  }",
       "",
-      "  @override",
+      override,
       "  void dispose() {",
       "    f.dispose();",
-      "    print('dispose ${name}State');",
+      "    print('dispose $name$stateU');",
       "    super.dispose();",
       "  }",
       "}",
       "",
     ];
-    fileName = "$lower/$fileName";
+    fileName = "$lib$lower/$fileName";
     File file = File(fileName);
     file.writeAsStringSync(code.join(wrap));
     return [fileName, code.join(wrap)];
   }
 
   List<String> fFunc() {
-    String fileName = "${lower}_$func$dart";
+    String fileName = "${lower}_$funcL$dart";
     List<String> code = [
-      "abstract class ${name}FuncDelegate {",
+      "abstract class $name$funcU$delegate {",
       "  void setState(Function() fn);",
       "}",
       "",
-      "class ${name}Func {",
-      "  ${name}FuncDelegate? delegate;",
+      "class $name$funcU {",
+      "  $name$funcU$delegate? delegate;",
       "",
-      "  ${name}Func() {",
-      "    print('init ${name}Func');",
+      "  $name$funcU() {",
+      "    print('init $name$funcU');",
       "    delegate?.setState(() {",
       "    });",
       "  }",
       "",
       "  void dispose() {",
-      "    print('dispose ${name}Func');",
+      "    print('dispose $name$funcU');",
       "  }",
       "}",
       "",
     ];
-    fileName = "$lower/$fileName";
+    fileName = "$lib$lower/$fileName";
     File file = File(fileName);
     file.writeAsStringSync(code.join(wrap));
     return [fileName, code.join(wrap)];
